@@ -2,6 +2,43 @@
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions, likelihood
 
+def input_people():
+    people = []
+    finished_input = False
+    while not finished_input:
+        person_name = input('Enter person\'s name: ').lower()
+        person_avail = input('Enter person\'s availability: ')
+        finished_input = input('Add another person? Y/N: ').lower() == "n"
+
+        person = {
+            'name': person_name,
+            'avail': person_avail
+        }
+
+        people.append(person)
+    
+    return people
+
+def input_activities():
+    activities = []
+    finished_input = False
+    while not finished_input:
+        activity_name = input('Enter activity name: ').lower()
+        activity_duration = input('Enter duration of activity in hours: ')
+        activity_indoors = input('Is the activity indoors? Y/N: ').lower() == 'y'
+        finished_input = input('Add another activity? Y/N: ').lower() == "n"
+
+        activity = {
+            'name': activity_name,
+            'duration': activity_duration,
+            'indoors': activity_indoors
+        }
+
+        activities.append(activity)
+    
+    return activities
+
+
 # Encoding that will store all of your constraints
 E = Encoding()
 
@@ -33,7 +70,7 @@ class FancyPropositions:
 
 # Call your variables whatever you want
 a = BasicPropositions("a")
-b = BasicPropositions("b")   
+b = BasicPropositions("b")
 c = BasicPropositions("c")
 d = BasicPropositions("d")
 e = BasicPropositions("e")
