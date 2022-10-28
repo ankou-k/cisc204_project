@@ -1,8 +1,8 @@
-
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions, likelihood
 
 def input_people():
+    print('Enter people')
     people = []
     finished_input = False
     while not finished_input:
@@ -20,6 +20,7 @@ def input_people():
     return people
 
 def input_activities():
+    print('Enter activities')
     activities = []
     finished_input = False
     while not finished_input:
@@ -37,6 +38,8 @@ def input_activities():
         activities.append(activity)
     
     return activities
+
+
 
 
 # Encoding that will store all of your constraints
@@ -79,6 +82,14 @@ x = FancyPropositions("x")
 y = FancyPropositions("y")
 z = FancyPropositions("z")
 
+@proposition(E)
+class ActivityProp:
+    def __init__(self, data):
+        self.data = data
+
+    def __repr__(self):
+        return f"A.{self.data}"
+
 
 # Build an example full theory for your setting and return it.
 #
@@ -91,7 +102,11 @@ def example_theory():
     # Implication
     E.add_constraint(y >> z)
     # Negate a formula
-    E.add_constraint((x & y).negate())
+
+    # this doesn't work?!
+    # E.add_constraint((x & y).negate())
+
+
     # You can also add more customized "fancy" constraints. Use case: you don't want to enforce "exactly one"
     # for every instance of BasicPropositions, but you want to enforce it for a, b, and c.:
     constraint.add_exactly_one(E, a, b, c)
