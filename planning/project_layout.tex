@@ -1,0 +1,45 @@
+\documentclass[pdftex,10pt,a4paper]{article}
+%Can change the pt, papersize etc.
+
+\usepackage{amsmath} %For both in-line and equation mode
+\numberwithin{equation}{section} %Numbering of our equations per section
+\usepackage{algorithm}
+\usepackage{algorithmic} %Algorithm styles, need to be nested for the example shown
+\usepackage{fancyhdr} %For our headers
+\usepackage{graphicx} %Inserting images
+\usepackage{lipsum}  %Blank text fill, delete me when finished
+\usepackage{setspace} %Spacing on the front page for crest and titles
+\usepackage[]{fncychap} % Styles can be Sonny, Lenny, Glenn, Conny, Rejne, Bjarne and Bjornstrup
+\usepackage[hyphens]{url} %Deals with hyphens in urls to make them clickable
+\usepackage{xcolor} %Great if you want coloured text
+\usepackage{tabularx}
+\usepackage{appendix} %Take a wild guess slick
+
+%KEEP THIS ONE LAST it's quite buggy, it allows you to click on links within the pdf and web links without changing the colour. The mouse cursor simply changes its icon to indicate to the user. Great tool - still awkward
+\usepackage[hidelinks]{hyperref}
+
+
+\begin{document}
+\section*{What to do(delete later)}
+\begin{itemize}
+    \item take in input from user: (using command line input for draft)
+    \begin{itemize}
+        \item Events - Adam
+        \begin{itemize}
+            \item take in amount of events
+            \item name of each event
+            \item other info about each event as indicated in proposition section
+        \end{itemize}
+        \item Users 
+            \begin{itemize}
+            \item names - dictionary key: user #, value: object {schedule, name}
+            \item schedules of people (how do we do this??)
+            \item research python library that allows to input calendar dates and times - Derek
+            \end{itemize}
+    \end{itemize}
+    \item see when all users are available
+    \item see what activity fits availabilities
+    \item output: activity
+    \item ***notes (should the events be of various durations [yes], should we have a time frame where we shouldn't schedule an event (when they sleep) [they just wouldn't include it in their availabilities], should we have time slots when an event can only be scheduled (ex: movie can only be either 7 or 9 pm)) [i think not at first, but can add it later]
+\end{itemize}
+\end{document}
