@@ -142,6 +142,8 @@ def example_theory():
                 count += 1
         if count == len(people):
             availability.append(True)
+        else:
+            availability.append(False)
 
     # constraint where activity holds iff there is availibility at given time & weather clear or indoor activity
     for j in range(activities):
