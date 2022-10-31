@@ -1,5 +1,7 @@
+from datetime import time
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions, likelihood
+from nnf.operators import iff
 
 #will be done graphically in final project
 def input_people():
@@ -105,36 +107,50 @@ for i in range(people):
     for k in range(times):
         t.append(TimingPropositions("t"+i+"j"+k))
 
-#for all activities indoor/outdoor status, create propositions
+# for all activities indoor/outdoor status, create propositions
 q = []
 for j in range(activities):
     q.append(IndoorsPropositions("q"+j))
 
-#for all weather conditions, create propositions
+# for all weather conditions, create propositions
 w = []
 for k in range(times):
     w.append(WeatherPropositions("w"+k))
 
-#for all scheduled, create propositions
+# for all scheduled, create propositions
 s = []
 for k in range(times):
     s.append(ScheduledPropositions("s"+k))
 
+# CONSTRAINTS
 def example_theory():
-    # Add custom constraints by creating formulas with the variables you created. 
 
-    E.add_constraint((a | b) & ~x)
-    # Implication
-    E.add_constraint(y >> z)
-    # Negate a formula
+    # constraint verifying availabilities for each hour, setting true if a person is free, false otherwise
+    for k in range(times):
+        for i in range(people):
+            if t[i,k] == 'free':
+                E.add_constraint(t[i,k])
+            else:
+                E.add_constraint(~ t[i,k])
 
-    # this doesn't work?!
-    # E.add_constraint((x & y).negate())
+    # checks for availability and only holds if everyone is free at a given time
+    availability = []
+    for k in range(times):
+        count = 0
+        for i in range(people):
+            if t[i,k] == True:
+                count += 1
+        if count == len(people):
+            availability.append(True)
 
+    # constraint where activity holds iff there is availibility at given time & weather clear or indoor activity
+    for j in range(activities):
+        for k in range(times):
+            E.add_constraint(iff(x[j], availability[k] & (w[k] | q(j))))
 
-    # You can also add more customized "fancy" constraints. Use case: you don't want to enforce "exactly one"
-    # for every instance of BasicPropositions, but you want to enforce it for a, b, and c.:
-    constraint.add_exactly_one(E, a, b, c)
+    # constraint where a scheduled slot is valid when only one event is scheduled at that given time
+    for k in range(times):
+        E.add_constraint(iff(s[j], x[0] | x[1] | ... | x[len(activities)]))
 
     return E
 
