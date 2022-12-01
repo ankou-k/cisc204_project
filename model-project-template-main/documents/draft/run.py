@@ -72,10 +72,25 @@ def get_weather():
         else:
             dayDict[k[:10]] = [[k[-9:], v]]
 
+    for v in dayDict.values():
+        for i in v:
+            print(i[-1][-4:])
+            if i[-1][-4:] == 'rain':
+                goodWeather = 'F'
+            elif i[-1][-4:] == 'snow':
+                goodWeather = 'F'
+            else:
+                goodWeather = 'T'
+
+            i.append(goodWeather)
+
     return dayDict
 
 # Encoding that will store all of constraints
 E = Encoding()
+
+#Activity Proposition
+
 
 @proposition(E)
 class ActivityPropositions:
@@ -86,6 +101,9 @@ class ActivityPropositions:
     def __repr__(self):
         return f"A.{self.data}"
 
+#Timing propositions
+times = [0,3,6,9,12,15,18,21]
+
 @proposition(E)
 class TimingPropositions:
 
@@ -95,6 +113,9 @@ class TimingPropositions:
     def __repr__(self):
         return f"A.{self.data}"
 
+#Indoors Proposition
+indoor = ['T','F']
+
 @proposition(E)
 class IndoorsPropositions:
 
@@ -103,6 +124,9 @@ class IndoorsPropositions:
 
     def __repr__(self):
         return f"A.{self.data}"
+
+# weather propositions
+weather = ['T','F']
 
 @proposition(E)
 class WeatherPropositions:

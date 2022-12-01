@@ -24,12 +24,26 @@ for dict in list:
     tempKey = dict['dt_txt']
     filtWeather[tempKey] = tempValue
 
+
 dayDict = {}
 for k, v in filtWeather.items():
     if k[:10] in dayDict.keys():
         dayDict[k[:10]].append([k[-9:], v])
     else:
         dayDict[k[:10]] = [[k[-9:], v]]
+
+for v in dayDict.values():
+    for i in v:
+        print(i[-1][-4:])
+        if i[-1][-4:] == 'rain':
+            goodWeather = 'F'
+        elif i[-1][-4:] == 'snow':
+            goodWeather = 'F'
+        else:
+            goodWeather = 'T'
+
+        i.append(goodWeather)
+
 
 
 
