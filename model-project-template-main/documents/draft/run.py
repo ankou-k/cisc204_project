@@ -2,6 +2,7 @@ from datetime import time
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions, likelihood
 from nnf.operators import iff
+import requests
 
 #will be done graphically in final project
 def input_people():
@@ -41,6 +42,37 @@ def input_activities():
         activities.append(activity)
     
     return activities
+
+def get_weather():
+    apiKey = "7310dd5bc23c33461ad6d71f286c1f05"
+    rootUrl = "http://api.openweathermap.org/data/2.5/forecast?"
+
+    cityName = input("Enter Your City: ")
+
+    url = f"{rootUrl}appid={apiKey}&q={cityName}"
+
+
+    allWeather = requests.get(url).json()
+
+    filtWeather = {}
+
+    list = allWeather['list']
+
+    for dict in list:
+        weatherList = dict['weather']
+        weatherDict = weatherList[0]
+        tempValue = weatherDict['description']
+        tempKey = dict['dt_txt']
+        filtWeather[tempKey] = tempValue
+
+    dayDict = {}
+    for k, v in filtWeather.items():
+        if k[:10] in dayDict.keys():
+            dayDict[k[:10]].append([k[-9:], v])
+        else:
+            dayDict[k[:10]] = [[k[-9:], v]]
+
+    return dayDict
 
 # Encoding that will store all of constraints
 E = Encoding()
@@ -95,6 +127,7 @@ class ScheduledPropositions:
 people = input_people()
 activities = input_activities()
 times = [] #range of available times
+weather = get_weather()
 
 # for all activities, create propositions
 x = []

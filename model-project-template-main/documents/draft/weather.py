@@ -26,31 +26,10 @@ for dict in list:
 
 dayDict = {}
 for k, v in filtWeather.items():
-    if k[:10] == '2022-10-31':
-        if k[:10] in dayDict.keys():
-            dayDict[k[:10]].append([k[-9:], v])
-        else:
-            dayDict[k[:10]] = [[k[-9:], v]]
-    elif k[:10] == '2022-11-01':
-        if k[:10] in dayDict.keys():
-            dayDict[k[:10]].append([k[-9:], v])
-        else:
-            dayDict[k[:10]] = [[k[-9:], v]]
-    elif k[:10] == '2022-11-02':
-        if k[:10] in dayDict.keys():
-            dayDict[k[:10]].append([k[-9:], v])
-        else:
-            dayDict[k[:10]] = [[k[-9:], v]]
-    elif k[:10] == '2022-11-03':
-        if k[:10] in dayDict.keys():
-            dayDict[k[:10]].append([k[-9:], v])
-        else:
-            dayDict[k[:10]] = [[k[-9:], v]]
-    elif k[:10] == '2022-11-04':
-        if k[:10] in dayDict.keys():
-            dayDict[k[:10]].append([k[-9:], v])
-        else:
-            dayDict[k[:10]] = [[k[-9:], v]]
+    if k[:10] in dayDict.keys():
+        dayDict[k[:10]].append([k[-9:], v])
+    else:
+        dayDict[k[:10]] = [[k[-9:], v]]
 
 
 
