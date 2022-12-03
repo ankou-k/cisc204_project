@@ -7,18 +7,29 @@ import requests
 #will be done graphically in final project
 def input_people():
     print('Enter people')
+
     people = []
     finished_input = False
     while not finished_input:
         person_name = input('Enter person\'s name: ').lower()
-        person_avail = input('Enter person\'s availability: ') #done through calendar 
-        finished_input = input('Add another person? Y/N: ').lower() == "n"
 
+        avail_list = []
+        finished_avail = False
+        while not finished_avail:
+            availability = {}
+            avail_day = input('Enter person\'s first available day(year/month/day): ')
+            avail_time = input('Enter person\'s available time on that day(hour-hour) in 24 hour time: ')
+            finished_avail = input('Add another day? Y/N: ').lower() == "n"
+            availability = {
+                avail_day: avail_time
+            }
+            avail_list.append(availability)
+
+        finished_input = input('Add another person? Y/N: ').lower() == "n"
         person = {
             'name': person_name,
-            'avail': person_avail
+            'avail': avail_list
         }
-
         people.append(person)
     
     return people
@@ -74,7 +85,6 @@ def get_weather():
 
     for v in dayDict.values():
         for i in v:
-            print(i[-1][-4:])
             if i[-1][-4:] == 'rain':
                 goodWeather = 'F'
             elif i[-1][-4:] == 'snow':
@@ -152,6 +162,10 @@ people = input_people()
 activities = input_activities()
 times = [] #range of available times
 weather = get_weather()
+
+print(people)
+print(activities)
+print(weather)
 
 # for all activities, create propositions
 x = []
