@@ -215,15 +215,25 @@ def example_theory():
             availability.append(True)
         else:
             availability.append(False)
+    
+    # constraint where if activity holds but weather does not, then activity is indoors
+    for j in range(activity):
+        for k in range(times):
+            E.add_constraint((x[j] & ~ w[k]) => q[j])
+            
+    # constraint where if activity holds but is not indoors, then weather holds (is clear)
+    for j in range(activity):
+        for k in range(times):
+            E.add_constraint((x[j] & ~ q[j]) => w[k])
 
     # constraint where activity holds iff there is availibility at given time & weather clear or indoor activity
     for j in range(activities):
         for k in range(times):
-            E.add_constraint(iff(x[j], availability[k] & (w[k] | q(j))))
+            E.add_constraint(iff(x[j], availability[k] & (w[k] | q[j])))
 
     # constraint where a scheduled slot is valid when only one event is scheduled at that given time
     for k in range(times):
-        E.add_constraint(iff(s[j], x[0] | x[1] | ... | x[len(activities)]))
+        E.add_constraint(iff(s[j], x[0] & (~ x[1] & ~ x[2] & ... & ~ x[len(activities)])))
 
     return E
 
