@@ -71,8 +71,6 @@ def get_weather():
 E = Encoding()
 
 #Activity Proposition
-
-
 @proposition(E)
 class ActivityPropositions:
 
@@ -166,6 +164,10 @@ for k in range(times):
 
 # CONSTRAINTS
 def example_theory():
+    
+    # function to make implications
+    def make_implication(left, right):
+        return (left.negate() | right)
 
     # constraint verifying availabilities for each hour, setting true if a person is free, false otherwise
     for k in range(times):
@@ -188,12 +190,12 @@ def example_theory():
             availability.append(False)
     
     # constraint where if activity holds but weather does not, then activity is indoors
-    for j in range(activity):
+    for j in range(activities):
         for k in range(times):
             E.add_constraint(make_implication(q[j], (x[j] & ~ w[k])))
             
     # constraint where if activity holds but is not indoors, then weather holds (is clear)
-    for j in range(activity):
+    for j in range(activities):
         for k in range(times):
             E.add_constraint(make_implication(w[k], (x[j] & ~ q[j])))
 
