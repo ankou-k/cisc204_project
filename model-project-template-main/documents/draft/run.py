@@ -190,12 +190,12 @@ def example_theory():
     # constraint where if activity holds but weather does not, then activity is indoors
     for j in range(activity):
         for k in range(times):
-            E.add_constraint((x[j] & ~ w[k]) => q[j])
+            E.add_constraint(make_implication(q[j], (x[j] & ~ w[k])))
             
     # constraint where if activity holds but is not indoors, then weather holds (is clear)
     for j in range(activity):
         for k in range(times):
-            E.add_constraint((x[j] & ~ q[j]) => w[k])
+            E.add_constraint(make_implication(w[k], (x[j] & ~ q[j])))
 
     # constraint where activity holds iff there is availibility at given time & weather clear or indoor activity
     for j in range(activities):
