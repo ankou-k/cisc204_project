@@ -1,5 +1,4 @@
 import requests
-import pandas as pd
 import json
 
 lettuce = input('Have everyone fill out a lettucemeet if you have not so already.\n The program will scrape the names and availabilities to produce the activity schedule.\nEnter the lettucemeet link here:\n ')
