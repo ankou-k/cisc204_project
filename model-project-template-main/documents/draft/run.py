@@ -227,6 +227,3 @@ if __name__ == "__main__":
         print(" %s: %.2f" % (vn, likelihood(T, v)))
     print()
 
-
-# STEP ONE: CREATE LIST OF AVAILABLE TIMES FOR EVERYONE (not done at the moment)
-#note: for large calander databases, can just find first time where everyone's available and suggest activity
