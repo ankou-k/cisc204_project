@@ -77,4 +77,4 @@ def input_people():
     return people
 
 
-input_people()
+#input_people()

@@ -1,0 +1,46 @@
+
+Model 1: (exist multiple matching times)
+Lettucemeet: https://lettucemeet.com/l/3vB9p
+
+Activities (1 total):
+Activity 1:
+    name: watching tv
+    hours: 3
+    indoors: yes
+City: kingston
+
+Result: exist 5 matching times
+
+
+Model 2: (exist a timeslot for each activity, multiple combinations)
+Lettucemeet: https://lettucemeet.com/l/3vB9p
+Activities: (3 total):
+Activity 1:
+    name: watching tv
+    hours: 3
+    indoors: yes
+Activity 2:
+    name: biking
+    hours: 3
+    indoors: no
+Activity 3:
+    name: walking
+    hours: 3
+    indoors: no
+City: Kingston
+
+Result: 
+rain on tuesday during matched time, hence activity 1 is scheduled on tuesday
+activity 2 and activity 3 scheduled on monday and wednesday, any order
+
+
+Model 3: (no matching availabilities)
+Lettucemeet: https://lettucemeet.com/l/v54L3
+Activity 1:
+    name: watching tv
+    hours: 3
+    indoors: yes
+City: Kingston
+
+Result: no matching availabilities
+
