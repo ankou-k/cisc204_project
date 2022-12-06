@@ -167,7 +167,7 @@ def example_theory():
     
     # function to make implications
     def make_implication(left, right):
-        return (left.negate() | right)
+        return (~ left | right)
 
     # constraint verifying availabilities for each hour, setting true if a person is free, false otherwise
     for k in range(times):
