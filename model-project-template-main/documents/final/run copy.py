@@ -72,11 +72,12 @@ E = Encoding()
 @proposition(E)
 class ActivityPropositions:
 
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, activity_name, activity_index):
+        self.activity_name = activity_name
+        self.activity_index = activity_index
 
     def __repr__(self):
-        return f"A.{self.data}"
+        return f"A.{self.activity_name}@{self.activity_index}"
 
 #Timing propositions
 times = [0,3,6,9,12,15,18,21]
@@ -84,11 +85,12 @@ times = [0,3,6,9,12,15,18,21]
 @proposition(E)
 class TimingPropositions:
 
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, person, time):
+        self.person = person
+        self.time = time
 
     def __repr__(self):
-        return f"A.{self.data}"
+        return f"A.{self.person}@{self.time}"
 
 #Indoors Proposition
 indoor = ['T','F']
@@ -96,11 +98,11 @@ indoor = ['T','F']
 @proposition(E)
 class IndoorsPropositions:
 
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, activity):
+        self.activity = activity
 
     def __repr__(self):
-        return f"A.{self.data}"
+        return f"A.{self.activity}"
 
 # weather propositions
 weather = ['T','F']
@@ -108,54 +110,70 @@ weather = ['T','F']
 @proposition(E)
 class WeatherPropositions:
 
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, day, time, index):
+        self.day = day
+        self.time = time
+        self.index = index
 
     def __repr__(self):
-        return f"A.{self.data}"
+        return f"A.{self.day}@{self.time}@{self.index}"
 
 @proposition(E)
 class ScheduledPropositions:
 
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, activity, time):
+        self.activity = activity
+        self.time = time
 
     def __repr__(self):
-        return f"A.{self.data}"
+        return f"A.{self.data}@{self.time}"
 
 #get input from user
 people = lettuce.input_people()
 activities = input_activities()
-times = [] #range of available times
+times = ['00:00:00', '01:00:00','02:00:00','04:00:00','05:00:00','06:00:00','07:00:00','08:00:00','09:00:00','10:00:00','11:00:00','12:00:00',
+            '13:00:00','14:00:00','15:00:00','16:00:00','17:00:00','18:00:00','19:00:00','20:00:00','21:00:00','22:00:00','23:00:00']
 weather = get_weather()
 
-# for all activities, create propositions
+#for all activities, create propositions
 x = []
-for j in range(len(activities)):
-    x.append(ActivityPropositions("x"+str(j)))
+activ_idx = 0 
+for j in activities:
+        x.append(ActivityPropositions(j['name'],activ_idx ))
+
 
 # for all times, create propositions
 t = []
-for i in range(len(people)):
-    for k in range(len(times)):
-        t.append(TimingPropositions("t"+str(i)+"j"+str(k)))
+time_idx = 0 
+for i in people:
+    temp_dict = {}
+    for k, d in i['avail'].items():
+        for e in d:
+            if e[1] == 'T':
+                if k in temp_dict.keys():
+                    temp_dict[k].append(e[0])
+                else:
+                    temp_dict[k] = [e[0]]
+    t.append(TimingPropositions(i['name'],temp_dict))
 
 # for all activities indoor/outdoor status, create propositions
 q = []
-for j in range(len(activities)):
-    q.append(IndoorsPropositions("q"+str(j)))
+for j in activities:
+    q.append(IndoorsPropositions(j['name']))
 
-# for all weather conditions, create propositions
 w = []
-for k in range(len(times)):
-    w.append(WeatherPropositions("w"+str(k)))
+for d, v in weather.items():
+    time_idx = 0 
+    for i in v: 
+        w.append(WeatherPropositions(d,i[0],time_idx))
+        time_idx += 1 
 
 # for all scheduled, create propositions
 s = []
-for k in range(len(times)):
-    s.append(ScheduledPropositions("s"+str(k)))
+for j in activities:
+    s.append(ScheduledPropositions(j,times))
 
-# CONSTRAINTS
+#CONSTRAINTS
 def example_theory():
     
     # function to make implications
@@ -163,8 +181,9 @@ def example_theory():
         return (~ left | right)
 
     # constraint verifying availabilities for each hour, setting true if a person is free, false otherwise
-    for k in range(len(times)):
-        for i in range(len(people)):
+    for i in range(len(people)):
+        for k in range(len(times)):
+            print(t[i]['avail'])
             if t[i,k] == 'free':
                 E.add_constraint(t[i,k])
             else:
@@ -217,8 +236,8 @@ if __name__ == "__main__":
 
     print("\nVariable likelihoods:")
     for v,vn in zip([a,b,c,x,y,z], 'abcxyz'):
-        # Ensure that you only send these functions NNF formulas
-        # Literals are compiled to NNF here
+        #Ensure that you only send these functions NNF formulas
+        #Literals are compiled to NNF here
         print(" %s: %.2f" % (vn, likelihood(T, v)))
     print()
 
